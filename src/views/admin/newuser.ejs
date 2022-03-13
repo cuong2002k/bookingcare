@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="/css/newuser.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div class="sidebar">
+    <a  href="/">User</a>
+    <a class="active" href="/news-user">News User</a>
+    <a href="#contact">Contact</a>
+    <a href="#about">About</a>
+  </div>
+  
+<div class="content">
+  <div class="box">
+    <div class="container">
+    
+      
+      <form action="/create-new-user" method="POST">
+        
+        <div class="row">
+          <div class="col-25">
+            <label>First Name</label>
+          </div>
+          <div class="col-75">
+            <input type="text"  name="firstName" placeholder="Your name..">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-25">
+            <label >Last Name</label>
+          </div>
+          <div class="col-75">
+            <input type="text"  name="lastName" placeholder="Your last name..">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-25">
+            <label >Email</label>
+          </div>
+          <div class="col-75">
+            <input type="email"  name="email" placeholder="Email..">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-25">
+            <label>Country</label>
+          </div>
+          <div class="col-75">
+            <select name="address">
+              <option value="australia">Australia</option>
+              <option value="canada">Canada</option>
+              <option value="usa">USA</option>
+              <option value="vietnam">VietNam</option>
+              <option value="thailand">Thailand</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <input type="submit" value="Submit">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>

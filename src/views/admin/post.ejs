@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <div class="topnav">
+        <a class="active" href="#home">Home</a>
+        <a href="/news-user">News</a>
+        <a href="#contact">Contact</a>
+        <a href="#about">About</a>
+    </div> -->
+
+    <!--  -->
+    <div class="sidebar">
+        <a href="/home">Home</a>
+        <a  href="/">User</a>
+        <a href="/news-user">News User</a>
+        <a href="/get-post" class="active">Posts</a>
+    </div>
+      
+    <div class="content">
+        <form method="POST" action="/upload-profile-pic" enctype="multipart/form-data">
+          
+            <div>
+                <label>Select your profile picture:</label>
+                <input type="file" name="profile" />
+            </div>
+            <div>
+                <label>name</label>
+                <input type="text" name="name" />
+            </div>
+            <div>
+                <label>content</label>
+                <input type="text" name="content"/>
+            </div>
+            <div>
+                <input type="submit" name="btn_upload_profile_pic" value="Upload" />
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+
+</html>
