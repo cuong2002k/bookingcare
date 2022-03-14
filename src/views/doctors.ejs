@@ -141,24 +141,24 @@
         <div class="col-lg-10">
 
           <div class="row">
-            
+          <%for(let i = 0;i< doctor.length ;i++){%>
             <div class="col-md-6 col-lg-4 py-3 wow zoomIn">
               <div class="card-doctor">
                 <div class="header">
-                  <img src="/img/doctors/doctor_1.jpg" alt="">
+                  <img src="/img/auth/<%=doctor[i].img%>" alt="">
                   <div class="meta">
                     <a href="#"><span class="mai-call"></span></a>
                     <a href="#"><span class="mai-logo-whatsapp"></span></a>
                   </div>
                 </div>
                 <div class="body">
-                  <p class="text-xl mb-0">Dr. Stein Albert</p>
+                  <p class="text-xl mb-0">Dr. <%=doctor[i].SurName%></p>
                   <span class="text-sm text-grey">Cardiology</span>
                 </div>
               </div>
             </div>
-    
-            <div class="col-md-6 col-lg-4 py-3 wow zoomIn">
+            <%}%>
+            <!-- <div class="col-md-6 col-lg-4 py-3 wow zoomIn">
               <div class="card-doctor">
                 <div class="header">
                   <img src="/img/doctors/doctor_2.jpg" alt="">
@@ -236,7 +236,7 @@
                   <span class="text-sm text-grey">General Health</span>
                 </div>
               </div>
-            </div>
+            </div> -->
 
           </div>
 

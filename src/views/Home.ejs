@@ -190,22 +190,24 @@
       <h1 class="text-center mb-5 wow fadeInUp">Our Doctors</h1>
 
       <div class="owl-carousel wow fadeInUp" id="doctorSlideshow">
+      <%for(let i = 0;i< doctor.length;i++){%>
         <div class="item">
           <div class="card-doctor">
             <div class="header">
-              <img src="/img/doctors/doctor_1.jpg" alt="">
+              <img src="/img/auth/<%=doctor[i].img%>" alt="">
               <div class="meta">
                 <a href="#"><span class="mai-call"></span></a>
                 <a href="#"><span class="mai-logo-whatsapp"></span></a>
               </div>
             </div>
             <div class="body">
-              <p class="text-xl mb-0">Dr. Stein Albert</p>
+              <p class="text-xl mb-0">Dr. <%=doctor[i].SurName%></p>
               <span class="text-sm text-grey">Cardiology</span>
             </div>
           </div>
         </div>
-        <div class="item">
+      <%}%>
+        <!-- <div class="item">
           <div class="card-doctor">
             <div class="header">
               <img src="/img/doctors/doctor_2.jpg" alt="">
@@ -219,8 +221,8 @@
               <span class="text-sm text-grey">Dental</span>
             </div>
           </div>
-        </div>
-        <div class="item">
+        </div> -->
+        <!-- <div class="item">
           <div class="card-doctor">
             <div class="header">
               <img src="/img/doctors/doctor_3.jpg" alt="">
@@ -234,8 +236,8 @@
               <span class="text-sm text-grey">General Health</span>
             </div>
           </div>
-        </div>
-        <div class="item">
+        </div> -->
+        <!-- <div class="item">
           <div class="card-doctor">
             <div class="header">
               <img src="/img/doctors/doctor_3.jpg" alt="">
@@ -249,8 +251,8 @@
               <span class="text-sm text-grey">General Health</span>
             </div>
           </div>
-        </div>
-        <div class="item">
+        </div> -->
+        <!-- <div class="item">
           <div class="card-doctor">
             <div class="header">
               <img src="/img/doctors/doctor_3.jpg" alt="">
@@ -264,10 +266,14 @@
               <span class="text-sm text-grey">General Health</span>
             </div>
           </div>
-        </div>
+        </div> -->
+
+
       </div>
     </div>
   </div>
+
+
 
   <div class="page-section bg-light">
     <div class="container">
@@ -353,7 +359,7 @@
         </div> -->
 
         <div class="col-12 text-center mt-4 wow zoomIn">
-          <a href="blog.html" class="btn btn-primary">Read More</a>
+          <a href="/blog/<%=datauser.id%>" class="btn btn-primary">Read More</a>
         </div>
 
       </div>

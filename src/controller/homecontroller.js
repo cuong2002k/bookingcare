@@ -106,7 +106,8 @@ let gethome = async (req,res)=>{
     let id = req.params.id;
     const [rows, fields] = await pool.execute('select * from users where id = ?',[id])
     let [post] = await pool.execute('SELECT *   FROM `posts` INNER JOIN `users` WHERE id = idadmin');
-    return res.render('Home.ejs',{datauser: rows[0],post: post});
+    let [users,fieldsuser] = await pool.execute('select * from users where Position = 2');
+    return res.render('Home.ejs',{datauser: rows[0],post: post,doctor : users});
     // return res.send('hello');
 }
 // get about
@@ -116,16 +117,18 @@ let getabout = async (req,res)=>{
     return res.render('about.ejs',{datauser: rows[0]})
 }
 // get getdoctordetails
-let getdoctordetails = async (req,res) =>{
+let getdoctorpage = async (req,res) =>{
     let id = req.params.id;
-    const [rows, fields] = await pool.execute('select * from users where id = ?',[id])
-    return res.render('doctors.ejs',{datauser: rows[0]})
+    const [rows, fields] = await pool.execute('select * from users where id = ?',[id]);
+    const [doctor, fieldsdoctor] = await pool.execute('select * from users where Position = 2');
+    return res.render('doctors.ejs',{datauser: rows[0],doctor : doctor});
 }
 // get getnews
 let getnews = async (req,res)=>{
     let id = req.params.id;
-    const [rows, fields] = await pool.execute('select * from users where id = ?',[id])
-    return res.render('blog.ejs',{datauser: rows[0]});
+    const [rows, fields] = await pool.execute('select * from users where id = ?',[id]);
+    const [post,postfields] = await pool.execute('SELECT *   FROM `posts` INNER JOIN `users` WHERE id = idadmin');
+    return res.render('blog.ejs',{datauser: rows[0],post : post});
 }
 let blogdetails = async (req,res)=>{
     let postid = req.params.id;
@@ -152,7 +155,7 @@ module.exports = {
     getAdmin,
     gethome,
     getabout,
-    getdoctordetails,
+    getdoctorpage,
     getnews,
     blogdetails,
     contact,

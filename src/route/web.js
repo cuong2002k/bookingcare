@@ -69,7 +69,7 @@ const initwebRoute = (app) =>{
     // get about
     router.get('/about/:id',homecontroller.getabout);
     // get doctors
-    router.get('/doctors/:id',homecontroller.getdoctordetails);
+    router.get('/doctors/:id',homecontroller.getdoctorpage);
     // get news
     router.get('/blog/:id',homecontroller.getnews);
     //get blog-details
