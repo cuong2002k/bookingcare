@@ -5,9 +5,10 @@ import multer from 'multer';
 import path from 'path';
 var appRoot = require('app-root-path');
 let router = express.Router();
+// upload file post
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null,appRoot + "/src/public/img/post/");
+        cb(null,appRoot + "/src/public/img/");
     },
 
     // By default, multer removes file extensions so let's add them back
@@ -25,45 +26,22 @@ const imageFilter = function(req, file, cb) {
 };
 let upload = multer({ storage: storage, fileFilter: imageFilter });
 
-
 const initwebRoute = (app) =>{
     // auth
     router.get('/',authcontroller.getLoginpage);
     router.post('/check-login',authcontroller.checkLoginpage);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // admin
-    
-    router.get('/admin/user/:id',homecontroller.getHomepage);
-
-    router.get('/more/user/:userID',homecontroller.getDetailpage);
-
-    router.get('/news-user',homecontroller.getnewuser);
-    router.post('/create-new-user',homecontroller.createNewUser);
-    router.post('/delete-user',homecontroller.deleteuser);
-    router.get('/updateusers/:id',homecontroller.updateusers)
-    router.post('/getDoctor',homecontroller.getDoctor);
-    router.post('/getAdmin',homecontroller.getAdmin);
-    router.post('/getPatient',homecontroller.getPatient);
-
-    
-    router.get('/get-post',homecontroller.getpost);
+    router.get('/admin/user/:id',authcontroller.getAdminpage);
+    router.get('/more/:id/user/:userID',authcontroller.getDetailpage);
+    router.get('/admin/news-user/:id',authcontroller.getnewuser);
+    router.get('/updateusers/:idadmin/user/:id',authcontroller.updateusers);
+    router.get('/admin/get-post/:id',authcontroller.getpost);
+    router.post('/updateusers',authcontroller.getupdateusers);
+    router.get('/delete-user/:idadmin/user/:id',authcontroller.deleteuser);
+    // upload file user
+    router.post('/create-new-user',upload.single('profile'),homecontroller.createNewUser);
     router.post('/upload-profile-pic',upload.single('profile'),homecontroller.handleuploadfile)
     //patient
-    // router.post('/updateusers',homecontroller.getupdateusers);
+    router.get('/details-doctor/:iddoctor/:iduser',homecontroller.detailsdoctor)
     // get home
     router.get('/home/:id',homecontroller.gethome);
     // get about
@@ -76,9 +54,10 @@ const initwebRoute = (app) =>{
     router.get('/blog-details/:id/:userid',homecontroller.blogdetails);
     // get contact
     router.get('/contact/:id',homecontroller.contact);
-    
-
-    
+    // comment 
+    router.post('/comment/:postid/:userid',homecontroller.comment);
+    // booking
+    router.post('/booking',homecontroller.getbooking);
     return app.use('/',router);
 }
 // module.exports = initwebRoute;

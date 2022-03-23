@@ -9,7 +9,10 @@
   <meta name="copyright" content="MACode ID, https://macodeid.com/">
 
   <title>One Health - Medical Center HTML5 Template</title>
-
+  <!-- <link
+  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.css"
+  rel="stylesheet"
+/> -->
   <link rel="stylesheet" href="/css/maicons.css">
 
   <link rel="stylesheet" href="/css/bootstrap.css">
@@ -17,9 +20,9 @@
   <link rel="stylesheet" href="/vendor/owl-carousel/css/owl.carousel.css">
 
   <link rel="stylesheet" href="/vendor/animate/animate.css">
-
   <link rel="stylesheet" href="/css/theme.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
 </head>
 <body>
 
@@ -91,14 +94,14 @@
               border-radius: 50%;
               height: 5em;
               width: 5em;
-              background: url(/img/auth/<%=datauser.img%>);
+              background: url(/img/<%=datauser.img%>);
               background-position: center;
               background-size: cover;
               "
               >
               </div>
               <div class="dropdown px-2">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">More
+                <button class="btn btn-primary dropdown-toggle" style="text-transform: capitalize;" type="button" data-toggle="dropdown">More
                 <span class="caret"></span></button>
                 <ul class="dropdown-menu " style="text-align: center; width: 100%;">
 
@@ -191,84 +194,45 @@
 
       <div class="owl-carousel wow fadeInUp" id="doctorSlideshow">
       <%for(let i = 0;i< doctor.length;i++){%>
+        
         <div class="item">
-          <div class="card-doctor">
-            <div class="header">
-              <img src="/img/auth/<%=doctor[i].img%>" alt="">
+          <div class="card-doctor" 
+          style="display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                "
+          >
+            <div class="header" style="
+                    height: 200px;
+                    width: 200px;
+                    border-radius: 50%;
+                    display: inline-block;
+                    background: url('/img/<%=doctor[i].img%>');
+                    background-position: center;
+                    background-size: cover;
+            ">
+              <!-- <img src="/img/<%=doctor[i].img%>" alt=""> -->
               <div class="meta">
                 <a href="#"><span class="mai-call"></span></a>
                 <a href="#"><span class="mai-logo-whatsapp"></span></a>
               </div>
             </div>
-            <div class="body">
-              <p class="text-xl mb-0">Dr. <%=doctor[i].SurName%></p>
+            <div class="body text-center">
+              <p class="text-xl mb-0">
+                <a href="/details-doctor/<%=doctor[i].id%>/<%=datauser.id%>"  
+                style="text-decoration: none;"
+                >
+                Dr. <%=doctor[i].FullName%>
+                </a>
+              </p>
               <span class="text-sm text-grey">Cardiology</span>
             </div>
           </div>
+
         </div>
+
       <%}%>
-        <!-- <div class="item">
-          <div class="card-doctor">
-            <div class="header">
-              <img src="/img/doctors/doctor_2.jpg" alt="">
-              <div class="meta">
-                <a href="#"><span class="mai-call"></span></a>
-                <a href="#"><span class="mai-logo-whatsapp"></span></a>
-              </div>
-            </div>
-            <div class="body">
-              <p class="text-xl mb-0">Dr. Alexa Melvin</p>
-              <span class="text-sm text-grey">Dental</span>
-            </div>
-          </div>
-        </div> -->
-        <!-- <div class="item">
-          <div class="card-doctor">
-            <div class="header">
-              <img src="/img/doctors/doctor_3.jpg" alt="">
-              <div class="meta">
-                <a href="#"><span class="mai-call"></span></a>
-                <a href="#"><span class="mai-logo-whatsapp"></span></a>
-              </div>
-            </div>
-            <div class="body">
-              <p class="text-xl mb-0">Dr. Rebecca Steffany</p>
-              <span class="text-sm text-grey">General Health</span>
-            </div>
-          </div>
-        </div> -->
-        <!-- <div class="item">
-          <div class="card-doctor">
-            <div class="header">
-              <img src="/img/doctors/doctor_3.jpg" alt="">
-              <div class="meta">
-                <a href="#"><span class="mai-call"></span></a>
-                <a href="#"><span class="mai-logo-whatsapp"></span></a>
-              </div>
-            </div>
-            <div class="body">
-              <p class="text-xl mb-0">Dr. Rebecca Steffany</p>
-              <span class="text-sm text-grey">General Health</span>
-            </div>
-          </div>
-        </div> -->
-        <!-- <div class="item">
-          <div class="card-doctor">
-            <div class="header">
-              <img src="/img/doctors/doctor_3.jpg" alt="">
-              <div class="meta">
-                <a href="#"><span class="mai-call"></span></a>
-                <a href="#"><span class="mai-logo-whatsapp"></span></a>
-              </div>
-            </div>
-            <div class="body">
-              <p class="text-xl mb-0">Dr. Rebecca Steffany</p>
-              <span class="text-sm text-grey">General Health</span>
-            </div>
-          </div>
-        </div> -->
-
-
       </div>
     </div>
   </div>
@@ -288,7 +252,7 @@
                 <a href="#">Covid19</a>
               </div>
               <a href="/blog-details/<%=post[i].idpost%>/<%=datauser.id%>" class="post-thumb">
-                <img src="/img/post/<%=post[i].image%>"alt="">
+                <img src="/img/<%=post[i].image%>"alt="">
               </a>
             </div>
             <div class="body">
@@ -296,9 +260,9 @@
               <div class="site-info">
                 <div class="avatar mr-2">
                   <div class="avatar-img">
-                    <img src="/img/auth/<%=post[i].img%>" alt="">
+                    <img src="/img/<%=post[i].img%>" alt="">
                   </div>
-                  <span><%=post[i].Name%></span>
+                  <span><%=post[i].FullName%></span>
                 </div>
                 <span class="mai-time"></span> 1 week ago
               </div>
@@ -306,58 +270,6 @@
           </div>
         </div>
       <%}%>
-
-        <!-- <div class="col-lg-4 py-2 wow zoomIn">
-          <div class="card-blog">
-            <div class="header">
-              <div class="post-category">
-                <a href="#">Covid19</a>
-              </div>
-              <a href="blog-details.html" class="post-thumb">
-                <img src="/img/blog/blog_2.jpg" alt="">
-              </a>
-            </div>
-            <div class="body">
-              <h5 class="post-title"><a href="blog-details.html">Recovery Room: News beyond the pandemic</a></h5>
-              <div class="site-info">
-                <div class="avatar mr-2">
-                  <div class="avatar-img">
-                    <img src="/img/person/person_1.jpg" alt="">
-                  </div>
-                  <span>Roger Adams</span>
-                </div>
-                <span class="mai-time"></span> 4 weeks ago
-              </div>
-            </div>
-          </div>
-        </div> -->
-        <!-- <div class="col-lg-4 py-2 wow zoomIn">
-          <div class="card-blog">
-            <div class="header">
-              <div class="post-category">
-                <a href="#">Covid19</a>
-              </div>
-              <a href="blog-details.html" class="post-thumb">
-                <img src="/img/blog/blog_3.jpg" alt="">
-              </a>
-            </div>
-
-            <div class="body">
-              <h5 class="post-title"><a href="blog-details.html">What is the impact of eating too much sugar?</a></h5>
-              <div class="site-info">
-                <div class="avatar mr-2">
-                  <div class="avatar-img">
-                    <img src="/img/person/person_2.jpg" alt="">
-                  </div>
-                  <span>Diego Simmons</span>
-                </div>
-                <span class="mai-time"></span> 2 months ago
-              </div>
-            </div>
-
-          </div>
-        </div> -->
-
         <div class="col-12 text-center mt-4 wow zoomIn">
           <a href="/blog/<%=datauser.id%>" class="btn btn-primary">Read More</a>
         </div>

@@ -3,76 +3,44 @@ import pool from '../config/connectDB'
 // chứa các logic trước khi vào trang
 import multer from 'multer'
 // admin
-let getHomepage = async (req, res) => {
-    
-    const [rows, fields] = await pool.execute('SELECT * FROM `users`');
-    return res.render('admin/index.ejs', { datauser: rows });
-}
 
-let getDetailpage = async (req,res) =>{
-    let userid = req.params.userID;
-    let [user,fields] = await pool.execute(`select * from users where id = ?`,[userid]);
-    return res.render('admin/detailsuser.ejs', {datauser: user[0]});
-}
-let getnewuser = (req,res) =>{
-    return res.render('admin/createuser.ejs')
-}
 let createNewUser = async (req,res) =>{
-    let {Name ,
-        Surname ,
+    var {FullName ,
         MobileNumber ,
         Password,
         Sex,
         birthday,
-        IdCard,
         Address,
         Email,
-        Job,
         Position,
-        Country,
-        State
+        adminid
     } = req.body;
-    await pool.execute(`insert into users(
-        Name,SurName,MobileNumber,Password,Sex,BirthDay,IDcard,Address,Email,Job,Position,Country,State) values(?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-    [Name,Surname,MobileNumber,Password,Sex,birthday,IdCard,Address,Email,Job,Position, Country, State]);
-    console.log(req.body);
-    return res.redirect('/');
-}
-let deleteuser = async (req,res) =>{
-    let userid = req.body.userID;
-    await pool.execute('delete from users where id = ?',[userid]);
-    return res.redirect('/');  
-}
-let updateusers = async (req,res)=>{
-    let userid = req.params.id;
-    let [user] = await pool.execute(`select * from users where id = ?`,[userid]);
-    return res.render('admin/editusers.ejs',{datauser: user[0]})
-}
-let getDoctor = async (req,res)=>{
-    let Doctor = req.body.Doctor;
-    const [rows, fields] = await pool.execute('SELECT * FROM `users` where Position = ?',[Doctor]);
-    return res.render('admin/index.ejs',{datauser: rows})
-}
-let getPatient = async (req,res)=>{
-    let Doctor = req.body.Patient;
-    const [rows, fields] = await pool.execute('SELECT * FROM `users` where Position = ?',[Doctor]);
-    return res.render('admin/index.ejs',{datauser: rows})
-}
-let getAdmin = async (req,res)=>{
-    let Doctor = req.body.Admin;
-    const [rows, fields] = await pool.execute('SELECT * FROM `users` where Position = ?',[Doctor]);
-    return res.render('admin/index.ejs',{datauser: rows});
+    upload(req, res, async function(err) {
+        // req.file contains information of uploaded file
+        // req.body contains information of text fields, if there were any
+
+        if (req.fileValidationError) {
+            return res.send(req.fileValidationError);
+        }
+        else if (!req.file) {
+            return res.send('Please select an image to upload');
+        }
+        else if (err instanceof multer.MulterError) {
+            return res.send(err);
+        }
+        else if (err) {
+            return res.send(err);
+        }
+        // res.send(`You have uploaded this image: <hr/><img src="/img/${req.file.filename}" width="500"><hr /><a href="/upload">Upload another image</a>`);
+        await pool.execute(`insert into users(FullName,MobileNumber,Password,Sex,BirthDay,Address,Email,Position,img) values(?,?,?,?,?,?,?,?,?)`,
+            [FullName,MobileNumber,Password,Sex,birthday,Address,Email,Position,req.file.filename]);
+        const [admin] = await pool.execute('select * from users where id = ?',[adminid]);
+        return res.render('admin/successful.ejs', {admin : admin[0]});
+    }); 
+    // return res.send('successful');
 }
 
-// let getupdateusers = async (req,res)=>{
-//     let {firstName,lastName,email,address,id} = req.body;
-//     await pool.execute(`update users set firstName = ?, lastName = ?, email = ?, address = ? where id = ?` ,
-//     [firstName,lastName,email,address,id]);
-//     return res.redirect('/');  
-// }
-let getpost = (req,res) =>{
-    return res.render('admin/post');
-}
+
 //upload file
 const upload = multer().single('profile_pic');
 let handleuploadfile = async (req,res) =>{
@@ -96,7 +64,7 @@ let handleuploadfile = async (req,res) =>{
         }
         // Display uploaded image for user validation
         
-        res.send(`You have uploaded this image: <hr/><img src="/img/post/${req.file.filename}" width="500"><hr /><a href="/upload">Upload another image</a>`);
+        res.send(`You have uploaded this image: <hr/><img src="/img/${req.file.filename}" width="500"><hr /><a href="/upload">Upload another image</a>`);
 
     });
 }
@@ -133,34 +101,52 @@ let getnews = async (req,res)=>{
 let blogdetails = async (req,res)=>{
     let postid = req.params.id;
     let id = req.params.userid;
-    
     const [rows, fields] = await pool.execute('select * from posts where idpost = ?',[postid]);
     const [user, fieldsuser] = await pool.execute('select * from users where id = ?',[id]);
-    return res.render('blog-details.ejs',{post: rows[0],datauser: user[0]});
+    const [comment,fieldscomment] = await pool.execute('select * from comment inner join users on idpatient = id where idnews = ? ',[postid]);
+    return res.render('blog-details.ejs',{post: rows[0],datauser: user[0],comment : comment});
 }
 let contact = async (req,res) =>{
     let id = req.params.id;
     const [rows, fields] = await pool.execute('select * from users where id = ?',[id])
     return res.render('contact.ejs',{datauser: rows[0]});
 }
+
+let comment = async (req,res) =>{
+    let idnew = req.params.postid;
+    let idpatient = req.params.userid;
+    let comment = req.body.msg;
+    let date = new Date();
+    await pool.execute('insert into comment values(?,?,?,?)',[idnew,idpatient,comment,date]);
+    return res.redirect(`/blog-details/${idnew}/${idpatient}`); 
+}
+let detailsdoctor = async (req,res) =>{
+    let iduser = req.params.iduser;
+    let iddoctor = req.params.iddoctor;
+    const [user] = await pool.execute('select * from users where id = ?', [iduser]);
+    const [doctor] = await pool.execute('select *from users where id = ?' , [iddoctor]);
+    return res.render('detailsdoctor.ejs',{user : user[0],doctor: doctor[0]});
+}
+let getbooking = async (req,res) =>{
+    let {doctor,
+    patient,
+    Time,
+    Date,
+    reason} = req.body;
+    await pool.execute('insert into booking(iddoctor,reason,idpatient,time,date) values(?,?,?,?,?)',[doctor,reason,patient,Time,Date]);
+
+    return res.send('thanh cong');
+}
 module.exports = {
-    getHomepage,
-    getDetailpage,
-    getnewuser,
     createNewUser,
-    deleteuser,
-    updateusers,
-    getDoctor,
-    getPatient,
-    getAdmin,
     gethome,
     getabout,
     getdoctorpage,
     getnews,
     blogdetails,
     contact,
-    getpost,
     handleuploadfile,
-    
-    // getupdateusers
+    comment,
+    detailsdoctor,
+    getbooking
 }

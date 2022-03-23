@@ -58,13 +58,12 @@
     </style>
 </head>
 
-<body  class='snippet-body'>
+<body  class='snippet-body' style="background-color: black;">
     <div class="sidebar">
-        <a class="active" href="/">User</a>
-        
-        <a  href="/news-user">News User</a>
-        <a href="#contact">Contact</a>
-        <a href="#about">About</a>
+        <a href="/home/<%=admin.id%>">Home</a>
+        <a class="active" href="/admin/user/<%=admin.id%>">User</a>
+        <a href="/admin/news-user/<%=admin.id%>">News User</a>
+        <a href="/admin/get-post/<%=admin.id%>">Posts</a>
         
     </div>
     <div class="content">
@@ -74,12 +73,12 @@
                     
                     <div class="col-md-3 border-right">
                       
-                        <a class="button-back" href="/">Back</a>
+                        <a class="button-back" href="/admin/user/<%=admin.id%>">Back</a>
                         <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img
                                 class="rounded-circle mt-5" width="150px"
-                                src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                                src="/img/<%=datauser.img%>">
                             <!-- setname and email-->
-                            <span class="font-weight-bold"><%= datauser.Name + datauser.SurName%></span><span
+                            <span class="font-weight-bold"><%= datauser.FullName %></span><span
                                 class="text-black-50"><%= datauser.Email%></span><span> </span>
                         </div>
                         <!-- endsetname -->
@@ -88,23 +87,20 @@
                     <div class="col-md-5 border-right">
                     
                         <div class="p-3 py-5">
-                            <form action="/create-new-user" method="POST">
+                    <form action="/updateusers" method="POST">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h4 class="text-right">Profile Settings</h4>
                             </div>
                             <div class="row mt-2">
                                 <!-- setname to hear -->
-                                <div class="col-md-6">
-                                    <label class="labels">Name</label>
-                                    <input type="text" class="form-control"  value="<%= datauser.Name%>"
-                                        name="Name">
+                                <div class="col-md-12">
+                                    <label class="labels">FullName</label>
+                                    <input type="text" class="form-control"  value="<%= datauser.FullName%>"
+                                        name="FullName">
                                 </div>
 
-                                <!-- surname -->
-                                <div class="col-md-6"><label class="labels">Surname</label>
-                                    <input type="text" class="form-control" value="<%= datauser.SurName%>" 
-                                        name="Surname">
-                                </div>
+                            
+                                
 
                                 <!-- end -->
                             </div>
@@ -134,15 +130,12 @@
                                 <!-- adress -->
                                 <div class="col-md-12"><label class="labels">Date Of Birt</label>
                                     <!-- <input type="text"class="form-control" placeholder="enter address line 2" value=""> -->
-                                    <!-- <%= datauser.BirthDay.getMonth()+1%>-<%= datauser.BirthDay.getDay()+1%><%= datauser.BirthDay.getFullYear() + datauser.BirthDay.getMonth()+1 %> -->
-                                    <input type="date" class="form-control" name="birthday" value="<%= Date(datauser.BirthDay)%>" min="1990-01-01" max="2100-01-01">
+                                   
+                                    <input type="date" class="form-control" name="birthday" value="<%=datauser.BirthDay%>">
                                     
                                 </div>
                                 <!--  -->
-                                <div class="col-md-12"><label class="labels">IdCard</label>
-                                    <input type="text" class="form-control" placeholder="Enter IdCard" value="<%= datauser.IDcard%>"
-                                        name="IdCard">
-                                </div>
+                               
 
 
                                 <!--  -->
@@ -154,43 +147,31 @@
                                 <!-- <div class="col-md-12"><label class="labels">Area</label><input type="text" class="form-control"
                                 placeholder="enter address line 2" value=""></div> -->
                                 <div class="col-md-12"><label class="labels">Email</label>
-                                    <input type="email" class="form-control" placeholder="Enter Email" value="<%= datauser.Email%>"
+                                    <input type="Email" class="form-control" placeholder="Enter Email" value="<%= datauser.Email%>"
                                         name="Email">
+
                                 </div>
 
 
-                                <div class="col-md-12"><label class="labels">Job</label><input type="text"
-                                        class="form-control" placeholder="Job" value="<%= datauser.Job%>" name="Job"></div>
-                                <!-- end set content -->
+                               
                                 <div class="col-md-12">
                                     <label class="labels">Position</label>
                                     <!-- <input type="text" class="form-control"placeholder="enter address line 2" value=""> -->
                                     <select class="form-control" name="Position">
-                                        <option value="Patient"><%= datauser.Position%></option>
-                                        <option value="Patient">Patient</option>
-                                        <option value="Doctor">Doctor</option>
-                                        <option value="Admin">Admin</option>
+                                        <option value="4"><%= datauser.position%></option>
+                                        <option value="4">Patient</option>
+                                        <option value="2">Doctor</option>
+                                        <option value="1">Admin</option>
+                                        <option value="3">Supporter</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="row mt-3">
-                                <!-- contry -->
-                                <div class="col-md-6"><label class="labels">Country</label><input type="text"
-                                        class="form-control" placeholder="country" value="<%= datauser.Country%>" name="Country"></div>
-                                <div class="col-md-6">
-                                    <label class="labels">State/Region</label>
-                                    <!-- <input type="text"class="form-control" value="" placeholder="state"> -->
-                                    <select class="form-control" name="State">
-                                        <option value="VietNam"><%= datauser.State%></option>
-                                        <option value="VietNam">VietNam</option>
-                                        <option value="USA">USA</option>
-                                        <option value="Russia">Russia</option>
-                                    </select>
-                                </div>
-                                <!-- end -->
-                            </div>
+                            <input type="text" value="<%=datauser.id%>" name="id" style="display: none;" >
+                            <input type="text" value="<%=admin.id%>" name="adminid" style="display: none;" >
                             <!-- save -->
-                            <div class="mt-5 text-center"><button class="btn btn-primary profile-button"
+                            <div class="mt-5 text-center">
+                                
+                                <button class="btn btn-primary profile-button"
                                     type="submit">Save
                                     Profile</button></div>
                         </form>            
