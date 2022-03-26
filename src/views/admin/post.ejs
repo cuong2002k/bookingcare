@@ -7,46 +7,135 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/css/maicons.css">
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/css/maicons.css">
+    <link href='/css/tabs.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/css/style.css">
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
+    <script type='text/javascript' src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js'></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <title>Document</title>
 </head>
 
 <body>
-    <!-- <div class="topnav">
-        <a class="active" href="#home">Home</a>
-        <a href="/news-user">News</a>
-        <a href="#contact">Contact</a>
-        <a href="#about">About</a>
-    </div> -->
-
     <!--  -->
     <div class="sidebar">
-        <a href="/home/<%=userid.id%>">Home</a>
-        <a  href="/admin/user/<%=userid.id%>">User</a>
-        <a  href="/admin/news-user/<%=userid.id%>">News User</a>
-        <a class="active" href="/admin/get-post/<%=userid.id%>">Posts</a>
+        <a href="/home/<%=userid.id%>"><i class="mai-home" style="color: white;"></i> Home</a>
+        <a href="/admin/user/<%=userid.id%>"><i class="mai-people" style="color: white;"></i> User</a>
+        <a href="/admin/news-user/<%=userid.id%>"><i class="mai-add" style="color: white;"></i> News User</a>
+        <a class="active" href="/admin/get-post/<%=userid.id%>"><i class="mai-navigate" style="color: white;"></i>
+            Posts</a>
     </div>
-      
+
     <div class="content">
-        <form method="POST" action="/upload-profile-pic" enctype="multipart/form-data">
-          
-            <div>
-                <label>Select your profile picture:</label>
-                <input type="file" name="profile" />
+        <div class="page-header">
+            <h1>Post</h1>
+        </div>
+        <div class="col-md-12">
+            <div class="panel with-nav-tabs panel-default">
+                <div class="panel-heading">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab1default" data-toggle="tab">Post</a></li>
+                        <li><a href="#tab2default" data-toggle="tab"> <i class="mai-add"></i> New Post</a></li>
+
+                        <!-- <li class="dropdown">
+                            <a href="#" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#tab4default" data-toggle="tab">Default 4</a></li>
+                                <li><a href="#tab5default" data-toggle="tab">Default 5</a></li>
+                            </ul>
+                        </li> -->
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="tab1default">
+
+                            <div class="w3-container">
+
+                                <table class="w3-table-all w3-hoverable">
+                                    <thead>
+                                        <tr class="w3-light-grey">
+                                            <th>ID</th>
+                                            <th>Name Post</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        <% for(let i=0; i < post.length; i++) { %>
+                                            <tr>
+                                                <td>
+                                                    <%= post[i].idpost %>
+                                                </td>
+                                                <td>
+                                                    <%= post[i].name %>
+                                                </td>
+                                                <td>
+                                                    <%= post[i].date.getDay()+ "/" + post[i].date.getMonth()+1 + "/" +
+                                                        post[i].date.getFullYear()%>
+                                                </td>
+
+
+                                                <td class="row-td">
+                                                    <form action="">
+                                                        <button type="button"> <a href="/"
+                                                                style="text-decoration: none;">See more</a> </button>
+                                                    </form>
+
+
+                                                    <form action="">
+                                                        <button type="button"><a href="/"
+                                                                style="text-decoration: none;">Update</a></button>
+
+                                                    </form>
+
+
+                                                    <form action="">
+
+                                                        <button type="button"><a href="/"
+                                                                style="text-decoration: none;">Delete</a></button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab2default">
+                            <img src="/img/bg_image_1.jpg" alt="" style="height: 300px;width: 500px;">
+                            <form method="POST" action="/upload-profile-pic/<%=userid.id%>" enctype="multipart/form-data">
+                                <div>
+                                    <label>Select your profile picture:</label><br>
+                                    <input type="file" name="profile" />
+                                </div>
+
+                                <div>
+                                    <label>Name</label><br>
+                                    <textarea type="text" name="name" cols="50"> </textarea>
+
+                                </div>
+                                <div>
+                                    <label>Content</label><br>
+                                    <textarea type="text" name="content" rows="4" cols="50"></textarea>
+                                </div>
+                                <div>
+                                    <input type="submit" name="btn_upload_profile_pic" value="Upload" />
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- <div class="tab-pane fade" id="tab5default">Default 5</div> -->
+                    </div>
+                </div>
             </div>
-            <div>
-                <label>name</label>
-                <input type="text" name="name" />
-            </div>
-            <div>
-                <label>content</label>
-                <input type="text" name="content"/>
-            </div>
-            <div>
-                <input type="submit" name="btn_upload_profile_pic" value="Upload" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+    </div>
 </body>
 
 </html>

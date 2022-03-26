@@ -187,6 +187,36 @@
       </div>
     </div> <!-- .bg-light -->
   </div> <!-- .bg-light -->
+  <!-- clinics -->
+  <div class=" page-section bg-light">
+    <div class="container mt-2">
+      <h1 class="text-center wow fadeInUp mb-5"> Our Clinics</h1>
+      <div class="clinics owl-carousel owl-theme">
+      
+      <% for(var i = 0 ; i < clinics.length;i++){
+        if(clinics[i].idclinics != 0){
+        %> 
+          <div class="item">
+            <div class="py-2 wow zoomIn">
+              <div class="card-blog">
+                <div class="header">
+                  <a href="/details-clinics/<%=clinics[i].idclinics%>/<%=datauser.id%>" class="post-thumb">
+                    <img src="/img/<%=clinics[i].image%>"alt="">
+                  </a>
+                </div>
+                <div class="body h-100">
+                  <h5 class="post-title"><a href="/details-clinics/<%=clinics[i].idclinics%>/<%=datauser.id%>"><%=clinics[i].name%></a></h5>
+                </div>
+              </div>
+            </div>
+          </div>
+      <%}}%>
+      
+    </div>
+    </div>
+  </div>
+  <!-- end -->
+
 
   <div class="page-section">
     <div class="container">
@@ -209,7 +239,7 @@
                     border-radius: 50%;
                     display: inline-block;
                     background: url('/img/<%=doctor[i].img%>');
-                    background-position: center;
+                    
                     background-size: cover;
             ">
               <!-- <img src="/img/<%=doctor[i].img%>" alt=""> -->
@@ -226,10 +256,9 @@
                 Dr. <%=doctor[i].FullName%>
                 </a>
               </p>
-              <span class="text-sm text-grey">Cardiology</span>
+              <span class="text-sm text-grey"><%=doctor[i].specialized%></span>
             </div>
           </div>
-
         </div>
 
       <%}%>
@@ -397,6 +426,23 @@
 <script src="/vendor/wow/wow.min.js"></script>
 
 <script src="/js/theme.js"></script>
-  
+        <script>  
+          $('.clinics').owlCarousel({
+            loop:true,
+
+            nav:true,
+            responsive:{
+                0:{
+                    items:3
+                },
+                600:{
+                    items:3
+                },
+                1000:{
+                    items:3
+                }
+            }
+        })
+        </script>
 </body>
 </html>

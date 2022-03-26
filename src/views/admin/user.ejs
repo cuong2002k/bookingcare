@@ -6,6 +6,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Snippet - GoSNippets</title>
     <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/css/maicons.css">
     <link href='/css/tabs.css' rel='stylesheet'>
     <link rel="stylesheet" href="/css/style.css">
     <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
@@ -16,10 +17,10 @@
 
 <body oncontextmenu='false' class='snippet-body'>
     <div class="sidebar">
-        <a href="/home/<%=userid.id%>">Home</a>
-        <a class="active" href="/admin/user/<%=userid.id%>">User</a>
-        <a href="/admin/news-user/<%=userid.id%>">News User</a>
-        <a href="/admin/get-post/<%=userid.id%>">Posts</a>
+        <a href="/home/<%=userid.id%>"> <i class="mai-home" style="color: white;"></i> Home</a>
+        <a class="active" href="/admin/user/<%=userid.id%>"><i class="mai-people" style="color: white;"></i> User</a>
+        <a href="/admin/news-user/<%=userid.id%>"><i class="mai-add" style="color: white;"></i> News User</a>
+        <a href="/admin/get-post/<%=userid.id%>"><i class="mai-navigate" style="color: white;"></i> Posts</a>
     </div>
       
     <div class="content">

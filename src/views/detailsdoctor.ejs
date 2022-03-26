@@ -137,14 +137,14 @@
               height: 10em;
               width: 10em;
               background: url(/img/<%=doctor.img%>);
-              background-position: center;
+              
               background-size: cover;
               "></div>
           </div>
           <div class="col-sm-10 d-flex justify-content-center " style="flex-direction: column;">
               <h2>Specialist || <%=doctor.FullName%></h2>
-              <p class="m-0">Nguyên Trưởng phòng khám Tiết niệu - Sinh dục, Bệnh viện Việt Đức</p>
-              <p>Trên 30 năm kinh nghiệm điều trị các bệnh lý liên quan đến Tiết niệu – Sinh dục</p>
+              <h5 class="m-0"> Specialized : <%=doctor.specialized%></h5>
+              <h5>Over 30 years of experience in treating diseases related to <%=doctor.specialized%></h5>
           </div>
       </div>
   </div>
@@ -153,7 +153,8 @@
       
       <%
         let timestart = [8,9,10,14,15,16];
-        let   timeend = ["8:00-9:00","9:00-10:00","10:00-11:00","14:00-15:00","15:00-16:00","16:00-17:00"];
+        let timeend = ["8:00-9:00","9:00-10:00","10:00-11:00","14:00-15:00","15:00-16:00","16:00-17:00"];
+        let m = [31,28,31,30,31,30,31,31,30,31,30,31];
             let d = new Date();
             let date = d.getDate();
             let hours = d.getHours();
@@ -167,12 +168,11 @@
                 Today <%= date + "/" + month %>
             </a>
             <a class="nav-link text-center" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">
-                 <%= (date+1) + "/" + month %>
-            </a>
-            <a class="nav-link text-center" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">
-                 <%= (date+2) + "/" + month %>
+              <%= date+1 + "/" + month %>
+                  
             </a>
           </div>
+
           <div class="tab-content col-sm-5" id="v-pills-tabContent">
             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                   <h5> <i class="mai-calendar"></i> Medical examination schedule</h5>
@@ -227,28 +227,55 @@
             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                <h5> <i class="mai-calendar"></i> Medical examination schedule</h5>  
               <% for(let i = 0 ; i < timestart.length ; i++){ %>
-                    <button class=" mt-2 py-2" id="buttonclick"
-                        >
-                            <%=timeend[i]%>
+                        <button class=" mt-2 py-2" type="button" id="buttonclick" data-toggle="modal" data-target="#exampleModal1">
+                          <%=timeend[i]%>
                         </button>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Booking</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <form action="/booking" method="post">
+                                  <div class="modal-body ">
+                                    <input type="text" name="doctor" value="<%=doctor.id%>" style="display: none;">
+                                    <input type="text" name="patient" value="<%=user.id%>" style="display: none;">
+                                    <label for="">Name</label>
+                                    <input type="text" class="form-control" placeholder="Full name" value="<%=user.FullName%>">
+                                    <label for="">Sex </label>
+                                    <input type="text" class="form-control" placeholder="Sex" value="<%=user.Sex%>">
+                                    <label for="">Phone </label>
+                                    <input type="text" class="form-control" placeholder="Phone" value="<%=user.MobileNumber%>">
+                                    <label for="">Address </label>
+                                    <input type="text" class="form-control" placeholder="Address" value="<%=user.Address%>">
+                                    <label for="">Time Booking </label>
+                                    <input type="text" class="form-control" placeholder="Time" value="<%=timeend[i]%>" name="Time">
+                                    <label for="">Date Booking </label>
+                                    <input type="text" class="form-control" placeholder="Date" value="<%=date+1%>/<%=month%>" name="Date">
+                                    <label for="">Reason </label>
+                                    <textarea name="reason" id="message" class="form-control" rows="6" placeholder="Enter Reason.." name="reason" required></textarea>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="submit" class="btn-primary">Send</button>
+                                  </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
                 <%}%> 
             </div>
-            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-              <h4></h4>
-               <h5> <i class="mai-calendar"></i> Medical examination schedule</h5>
-              <% for(let i = 0 ; i < timestart.length ; i++){ %>
-                    <button class=" mt-2 py-2" id="buttonclick"
-                    >
-                        <%=timeend[i]%>
-                    </button>
-                <%}%> 
-            </div>
+            
             
           </div>
           <div class="col-sm-5">
                 <h5> <i class="mai-home"></i> Examination address</h5>
-                <h6>Phòng khám Chuyên khoa Nội An Phước</h6>
-                 <p>391/8 Sư Vạn Hanh, Phường 12, Quận 10, Thành phố Hồ Chí Minh</p>
+                <h6><%=doctor.name%></h6>
+                 <p><%=doctor.address%></p>
                 <hr>
                 <h6>Examination price : $100</h6>
           </div>

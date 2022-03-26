@@ -59,14 +59,8 @@
 </head>
 
 <body  class='snippet-body' style="background-color: black;">
-    <div class="sidebar">
-        <a href="/home/<%=admin.id%>">Home</a>
-        <a class="active" href="/admin/user/<%=admin.id%>">User</a>
-        <a href="/admin/news-user/<%=admin.id%>">News User</a>
-        <a href="/admin/get-post/<%=admin.id%>">Posts</a>
-        
-    </div>
-    <div class="content">
+    
+    <div >
         
             <div class="container rounded bg-white mt-5 mb-5">
                 <div class="row">
@@ -158,7 +152,8 @@
                                     <label class="labels">Position</label>
                                     <!-- <input type="text" class="form-control"placeholder="enter address line 2" value=""> -->
                                     <select class="form-control" name="Position">
-                                        <option value="4"><%= datauser.position%></option>
+                                        <option value="<%=datauser.rolesid%>"><%= datauser.position%></option>
+
                                         <option value="4">Patient</option>
                                         <option value="2">Doctor</option>
                                         <option value="1">Admin</option>
@@ -166,6 +161,33 @@
                                     </select>
                                 </div>
                             </div>
+                            
+                                <div class="col-md-12">
+                                    <label class="labels">clinics</label>
+                                    <!-- <input type="text" class="form-control"placeholder="enter address line 2" value=""> -->
+                                    <select class="form-control" name="clinics">
+                                        <option value="<%=datauser.idclinics%>"><%=datauser.name%></option>
+                                        <%for(let i = 0;i< clinic.length ; i++){%>
+                                            <option value="<%=clinic[i].idclinics%>"><%=clinic[i].name%></option>
+                                        <%}%>
+                                    </select> 
+                                    
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels">Specialized</label>
+                                    <!-- <input type="text" class="form-control"placeholder="enter address line 2" value=""> -->
+                                    <select class="form-control" name="specialized">
+                                        <option value="<%=datauser.idsp%>"><%=datauser.specialized%></option>
+                                        <%for(let i = 0;i < specialized.length;i++){
+                                                if(datauser.idsp != specialized[i].idsp){  
+                                        %>
+                                            <option value="<%=specialized[i].idsp%>"><%=specialized[i].specialized%></option>
+                                        <%}}%>
+                                    </select> 
+                                    
+                                </div>
+
+                            
                             <input type="text" value="<%=datauser.id%>" name="id" style="display: none;" >
                             <input type="text" value="<%=admin.id%>" name="adminid" style="display: none;" >
                             <!-- save -->

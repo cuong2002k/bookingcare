@@ -59,13 +59,8 @@
 </head>
 
 <body oncontextmenu='false' class='snippet-body' style="background-color: black;">
-    <div class="sidebar">
-        <a href="/home/<%=admin.id%>">Home</a>
-        <a class="active" href="/admin/user/<%=admin.id%>">User</a>
-        <a href="/admin/news-user/<%=admin.id%>">News User</a>
-        <a href="/admin/get-post/<%=admin.id%>">Posts</a>
-    </div>
-    <div class="content">
+   
+    <div >
       <!--  -->
       <div class="container rounded bg-white mt-5 mb-5">
         <!--  -->
@@ -80,7 +75,7 @@
                         height: 10em;
                         width: 10em;
                         background: url(/img/<%=datauser.img%>);
-                        background-position: center;
+                        
                         background-size: cover;
                         "
                     > </div>
@@ -156,8 +151,30 @@
                                 <option value="Doctor">Doctor</option>
                                 <option value="Admin">Admin</option>
                             </select>  -->
-                            <p class="form-control"><%=datauser.Position%></p>
+                            <p class="form-control"><%=datauser.position%></p>
                         </div>
+                        <%if(datauser.Position == 2){%>
+                            <div class="col-md-12">
+                                <label class="labels">Specialized</label>
+                                <!-- <input type="text" class="form-control"placeholder="enter address line 2" value=""> -->
+                                <!-- <select class="form-control" name="Position">
+                                    <option value="Patient">Patient</option>
+                                    <option value="Doctor">Doctor</option>
+                                    <option value="Admin">Admin</option>
+                                </select>  -->
+                                <p class="form-control"><%=datauser.specialized%></p>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="labels">Clinics</label>
+                                <!-- <input type="text" class="form-control"placeholder="enter address line 2" value=""> -->
+                                <!-- <select class="form-control" name="Position">
+                                    <option value="Patient">Patient</option>
+                                    <option value="Doctor">Doctor</option>
+                                    <option value="Admin">Admin</option>
+                                </select>  -->
+                                <p class="form-control"><%=datauser.name%></p>
+                            </div>
+                        <%}%>
                     </div>
                    
                     <!-- save -->

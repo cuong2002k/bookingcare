@@ -39,7 +39,7 @@ const initwebRoute = (app) =>{
     router.get('/delete-user/:idadmin/user/:id',authcontroller.deleteuser);
     // upload file user
     router.post('/create-new-user',upload.single('profile'),homecontroller.createNewUser);
-    router.post('/upload-profile-pic',upload.single('profile'),homecontroller.handleuploadfile)
+    router.post('/upload-profile-pic/:id',upload.single('profile'),homecontroller.handleuploadfile)
     //patient
     router.get('/details-doctor/:iddoctor/:iduser',homecontroller.detailsdoctor)
     // get home
@@ -58,6 +58,8 @@ const initwebRoute = (app) =>{
     router.post('/comment/:postid/:userid',homecontroller.comment);
     // booking
     router.post('/booking',homecontroller.getbooking);
+    // deatails clinic
+    router.get('/details-clinics/:idclinic/:iduser',homecontroller.getdetailclinics)
     return app.use('/',router);
 }
 // module.exports = initwebRoute;

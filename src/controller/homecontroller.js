@@ -2,6 +2,7 @@
 import pool from '../config/connectDB'
 // chứa các logic trước khi vào trang
 import multer from 'multer'
+import { system } from 'nodemon/lib/config';
 // admin
 
 let createNewUser = async (req,res) =>{
@@ -13,6 +14,8 @@ let createNewUser = async (req,res) =>{
         Address,
         Email,
         Position,
+        clinics,
+        specialized,
         adminid
     } = req.body;
     upload(req, res, async function(err) {
@@ -32,8 +35,8 @@ let createNewUser = async (req,res) =>{
             return res.send(err);
         }
         // res.send(`You have uploaded this image: <hr/><img src="/img/${req.file.filename}" width="500"><hr /><a href="/upload">Upload another image</a>`);
-        await pool.execute(`insert into users(FullName,MobileNumber,Password,Sex,BirthDay,Address,Email,Position,img) values(?,?,?,?,?,?,?,?,?)`,
-            [FullName,MobileNumber,Password,Sex,birthday,Address,Email,Position,req.file.filename]);
+        await pool.execute(`insert into users(FullName,MobileNumber,Password,Sex,BirthDay,Address,Email,Position,specialized,clinics,img) values(?,?,?,?,?,?,?,?,?,?,?)`,
+            [FullName,MobileNumber,Password,Sex,birthday,Address,Email,Position,specialized,clinics,req.file.filename]);
         const [admin] = await pool.execute('select * from users where id = ?',[adminid]);
         return res.render('admin/successful.ejs', {admin : admin[0]});
     }); 
@@ -44,12 +47,10 @@ let createNewUser = async (req,res) =>{
 //upload file
 const upload = multer().single('profile_pic');
 let handleuploadfile = async (req,res) =>{
-    const name = req.body.name;
-    const content = req.body.content;
-    const file = req.file.filename;
-    upload(req, res, function(err) {
-        // req.file contains information of uploaded file
-        // req.body contains information of text fields, if there were any
+    const {name,content} = req.body;
+    let idadmin = req.params.id;
+    upload(req, res, async function(err) {
+        
         if (req.fileValidationError) {
             return res.send(req.fileValidationError);
         }
@@ -62,10 +63,8 @@ let handleuploadfile = async (req,res) =>{
         else if (err) {
             return res.send(err);
         }
-        // Display uploaded image for user validation
-        
-        res.send(`You have uploaded this image: <hr/><img src="/img/${req.file.filename}" width="500"><hr /><a href="/upload">Upload another image</a>`);
-
+        await pool.execute('insert into posts(idadmin,name,content,image) values(?,?,?,?)',[idadmin,name,content,req.file.filename]);
+        res.redirect(`/admin/get-post/${idadmin}`)
     });
 }
 // patients
@@ -74,8 +73,12 @@ let gethome = async (req,res)=>{
     let id = req.params.id;
     const [rows, fields] = await pool.execute('select * from users where id = ?',[id])
     let [post] = await pool.execute('SELECT *   FROM `posts` INNER JOIN `users` WHERE id = idadmin');
-    let [users,fieldsuser] = await pool.execute('select * from users where Position = 2');
-    return res.render('Home.ejs',{datauser: rows[0],post: post,doctor : users});
+    let [users] = await pool.execute(`select * from users inner join roles on users.Position = roles.rolesid
+                                        inner join specialized on users.specialized =  specialized.idsp 
+                                        inner join clinics on users.clinics = clinics.idclinics
+                                        where users.Position = 2`);
+    let [clinics,fielsdscilincs] = await pool.execute('select * from clinics');
+    return res.render('Home.ejs',{datauser: rows[0], post: post, doctor : users , clinics : clinics});
     // return res.send('hello');
 }
 // get about
@@ -124,7 +127,11 @@ let detailsdoctor = async (req,res) =>{
     let iduser = req.params.iduser;
     let iddoctor = req.params.iddoctor;
     const [user] = await pool.execute('select * from users where id = ?', [iduser]);
-    const [doctor] = await pool.execute('select *from users where id = ?' , [iddoctor]);
+    let [doctor,fields] = await pool.execute(`select * from (users inner join roles on users.Position = roles.rolesid) 
+        inner join specialized on users.specialized =  specialized.idsp 
+        inner join clinics on users.clinics = clinics.idclinics
+        where id = ?`,[iddoctor]);
+    
     return res.render('detailsdoctor.ejs',{user : user[0],doctor: doctor[0]});
 }
 let getbooking = async (req,res) =>{
@@ -137,6 +144,14 @@ let getbooking = async (req,res) =>{
 
     return res.send('thanh cong');
 }
+let getdetailclinics = async (req,res) =>{
+    let userid = req.params.iduser;
+    let idclinic = req.params.idclinic;
+    const [user] = await pool.execute('select * from users where id = ?' , [userid]);
+    const [clinic] = await pool.execute('select * from clinics where idclinics = ?',[idclinic]);
+    const [doctor] = await pool.execute('select * from users inner join specialized on users.specialized =  specialized.idsp where clinics = ? ' , [idclinic]);
+    return res.render('detailsclinic.ejs',{user : user[0],clinic : clinic[0],doctor : doctor});
+}
 module.exports = {
     createNewUser,
     gethome,
@@ -148,5 +163,6 @@ module.exports = {
     handleuploadfile,
     comment,
     detailsdoctor,
-    getbooking
+    getbooking,
+    getdetailclinics
 }
