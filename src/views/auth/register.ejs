@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>create user</title>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='' rel='stylesheet'>
+    <link rel="stylesheet" href="/css/maicons.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <style>
+        body {
+            background: #00D9A5;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #BA68C8
+        }
+
+        .profile-button {
+            background: rgb(99, 39, 120);
+            box-shadow: none;
+            border: none
+        }
+
+        .profile-button:hover {
+            background: #682773
+        }
+
+        .profile-button:focus {
+            background: #682773;
+            box-shadow: none
+        }
+
+        .profile-button:active {
+            background: #682773;
+            box-shadow: none
+        }
+
+        .back:hover {
+            color: #682773;
+            cursor: pointer
+        }
+
+        .labels {
+            font-size: 11px
+        }
+
+        .add-experience:hover {
+            background: #BA68C8;
+            color: #fff;
+            cursor: pointer;
+            border: solid 1px #BA68C8
+        }
+    </style>
+</head>
+
+<div  class='snippet-body' style="background-color: #00D9A5;">
+    <div>
+        <div class="container rounded bg-white mt-5 mb-5">
+            <!--  -->
+            <form action="/registeruser" enctype="multipart/form-data" method="post">
+                <div class="row">
+                    <!--  -->
+                    <div class="col-md-3 border-right">
+                        
+                        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                            <div style="
+                                background: #456BD9;
+                                border-radius: 50%;
+                                height: 10em;
+                                width: 10em;
+                                background: url(https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg);
+                                background-position: center;
+                                background-size: cover;
+                                "
+                            > </div>
+                            
+                            <span class="font-weight-bold d-flex justify-content-center w-100">
+                                <input type="file" name="profile" />
+                            </span>
+                            
+                        </div>
+                                <!-- endsetname -->
+                    </div>
+                    <!--  -->
+                    <div class="col-md-5 border-right">
+                        <div class="p-3 py-5">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="text-right">Profile Settings</h4>
+                            </div>
+                            <div class="row mt-2">
+                                <!-- setname to hear -->
+                                <div class="col-md-12">
+                                    <label class="labels">FullName</label>
+                                    <input type="text" class="form-control" placeholder="first name" value="" name="FullName">
+                                    
+                                </div>
+                                        
+                                <!-- surname -->
+                               
+                                        
+                                <!-- end -->
+                            </div>
+
+                            <div class="row mt-3">
+                                <!-- mobile -->
+                                <div class="col-md-12"><label class="labels">Mobile Number</label>
+                                    <input type="text"class="form-control" placeholder="enter phone number" value="" name="MobileNumber">
+                                    
+                                </div>   
+                                <div class="col-md-12"><label class="labels">Password</label>
+                                    <input type="text"class="form-control" placeholder="Enter Password" value="" name="Password"> 
+                                </div>    
+                                <!-- adress -->
+                                <div class="col-md-12"><label class="labels">Sex</label>
+                                    <!-- <input type="text"class="form-control" placeholder="enter address line 2" value=""> -->
+                                    <select class="form-control" name="Sex">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Othergenders">Other Genders</option>
+                                    </select>   
+                                    
+                                </div>
+                                <!-- adress -->
+                                <div class="col-md-12"><label class="labels">Date Of Birth</label>
+                                    <!-- <input type="text"class="form-control" placeholder="enter address line 2" value=""> -->
+                                    <input type="date" class="form-control" name="birthday">
+                                    
+                                </div>  
+                                <div class="col-md-12"><label class="labels">Address</label>
+                                    <input  type="text"class="form-control" placeholder="Enter Address" value="" name="Address">
+                                    
+                                </div>   
+                                <div class="col-md-12"><label class="labels">Email</label>
+                                    <input type="email"class="form-control" placeholder="Enter Email" value="" name="Email"> 
+                                </div>
+                                <!-- end set content -->
+                                <div class="col-md-12">
+                                    <label class="labels">Position</label>
+                                    <!-- <input type="text" class="form-control"placeholder="enter address line 2" value=""> -->
+                                    <select class="form-control" name="Position">
+                                        <option value="4">Patient</option>
+                                        <option value="2">Doctor</option>
+                                        <option value="1">Admin</option>
+                                        <option value="3">Supporter</option>
+                                    </select> 
+                                    
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels">Clinics</label>
+                                    <!-- <input type="text" class="form-control"placeholder="enter address line 2" value=""> -->
+                                    <select class="form-control" name="clinics">
+                                        <%for(let i = 0;i < clinic.length; i++ ){%>
+                                            <option value="<%=clinic[i].idclinics%>"><%=clinic[i].name%></option>
+                                        <%}%>
+                                    </select> 
+                                    
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels">Specialized</label>
+                                    <!-- <input type="text" class="form-control"placeholder="enter address line 2" value=""> -->
+                                    <select class="form-control" name="specialized">
+                                        <%for(let i = 0;i < specialized.length; i++ ){%>
+                                            <option value="<%=specialized[i].idsp%>"><%=specialized[i].specialized%></option>
+                                        <%}%>
+                                    </select> 
+                                    
+                                </div>
+                            </div>
+                            <!-- userid -->
+                            
+                            <!-- save -->
+                            <div class="mt-5 text-center">
+                                
+                                <input class="btn btn-primary profile-button" type="submit" name="btn_upload_profile_pic" value="Upload" />
+                            </div>
+        
+                            </div>
+                    </div>
+                    <!--  -->
+                    <!--  -->
+                    <div class="col-md-4">
+                        <div style="float: right;">
+                            <button type="button" class="mt-1" onclick="window.location.href='/';" style="
+                            background-color: #00D9A5;
+                            width: 60px;
+                            height: 30px;
+                            border-style: none;
+                            " >close</button>
+                        </div>
+                        <!-- experience -->
+                        <div class="p-3 py-5">
+                            <div class="d-flex justify-content-center align-items-center experience">
+                                <span style="font-size: 20px;font-weight: bold;">Contact-Us</span>
+                                <!-- <span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span> -->
+                            </div><br>        
+                            <div class="col-md-12">
+                                <!-- <label class="labels">Experience in Designing</label>
+                                <input type="text"class="form-control" placeholder="experience" value=""> -->
+                                <img src="https://www.w3schools.com/w3images/map.jpg" style="width:100%">
+                            </div> <br>  
+                            <div class="col-md-12 d-flex justify-content-center" style="flex-direction: column;">
+                                <label style="font-size: 20px;font-weight: bold;" class="labels">Best Quality</label>
+                                <!-- <input type="text"class="form-control" placeholder="additional details" value=""> -->
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur, cupiditate sunt quas error eveniet accusamus quia id necessitatibus distinctio inventore dolores velit quibusdam eos rerum odio vitae, repellat minima!</p>
+                            </div>       
+                        </div>
+                    </div>
+                    <!--  -->
+                </div>
+            </form>
+            <!--  -->
+          </div>   
+    </div>
+</div>
+    <script type='text/javascript'
+        src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js'></script>
+    <script type='text/javascript' src=''></script>
+    <script type='text/javascript' src=''></script>
+    <script type='text/Javascript'></script>
+</body>
+
+</html>

@@ -53,16 +53,16 @@
 
     <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
       <div class="container">
-        <a class="navbar-brand" href="#"><span class="text-primary">One</span>-Health</a>
+        <a class="navbar-brand" href="/home/<%=datauser.id%>"><span class="text-primary">Booking</span>-Care</a>
 
-        <form action="#">
+        <!-- <form action="#">
           <div class="input-group input-navbar">
             <div class="input-group-prepend">
               <span class="input-group-text" id="icon-addon1"><span class="mai-search"></span></span>
             </div>
             <input type="text" class="form-control" placeholder="Enter keyword.." aria-label="Username" aria-describedby="icon-addon1">
           </div>
-        </form>
+        </form> -->
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport" aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -108,11 +108,7 @@
 
                   <li><a href="/">Log out</a></li>
                   
-                  <li>
-                    
-                        <a href="/more/user/<%=datauser.id%>" >profile</a>
-        
-                  </li>
+                  
                 </ul>
               </div>
             </li>
@@ -143,9 +139,9 @@
         <div class="col-md-4 py-3 wow zoomIn">
           <div class="card-service">
             <div class="circle-shape bg-secondary text-white">
-              <span class="mai-chatbubbles-outline"></span>
+              <span class="mai-people"></span>
             </div>
-            <p><span>Chat</span> with a doctors</p>
+            <p><span>Wholehearted </span> support</p>
           </div>
         </div>
         <div class="col-md-4 py-3 wow zoomIn">
@@ -181,51 +177,24 @@
         <div class="col-lg-10 mt-5">
           <h1 class="text-center mb-5 wow fadeInUp">Our Doctors</h1>
           <div class="row justify-content-center">
+          <%for(let i = 0;i < doctor.length && i < 3;i++){%>
             <div class="col-md-6 col-lg-4 wow zoomIn">
               <div class="card-doctor">
                 <div class="header">
-                  <img src="/img/doctors/doctor_1.jpg" alt="">
+                  <img src="/img/<%=doctor[i].img%>" alt="">
                   <div class="meta">
                     <a href="#"><span class="mai-call"></span></a>
                     <a href="#"><span class="mai-logo-whatsapp"></span></a>
                   </div>
                 </div>
                 <div class="body">
-                  <p class="text-xl mb-0">Dr. Stein Albert</p>
-                  <span class="text-sm text-grey">Cardiology</span>
+                  <p class="text-xl mb-0"><%=doctor[i].FullName%></p>
+                  <span class="text-sm text-grey"><%=doctor[i].specialized%></span>
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-lg-4 wow zoomIn">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="/img/doctors/doctor_2.jpg" alt="">
-                  <div class="meta">
-                    <a href="#"><span class="mai-call"></span></a>
-                    <a href="#"><span class="mai-logo-whatsapp"></span></a>
-                  </div>
-                </div>
-                <div class="body">
-                  <p class="text-xl mb-0">Dr. Alexa Melvin</p>
-                  <span class="text-sm text-grey">Dental</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4 wow zoomIn">
-              <div class="card-doctor">
-                <div class="header">
-                  <img src="/img/doctors/doctor_3.jpg" alt="">
-                  <div class="meta">
-                    <a href="#"><span class="mai-call"></span></a>
-                    <a href="#"><span class="mai-logo-whatsapp"></span></a>
-                  </div>
-                </div>
-                <div class="body">
-                  <p class="text-xl mb-0">Dr. Rebecca Steffany</p>
-                  <span class="text-sm text-grey">General Health</span>
-                </div>
-              </div>
-            </div>
+          <%}%>
+            
 
           </div>
         </div>
@@ -233,7 +202,7 @@
     </div>
   </div>
 
-  <div class="page-section banner-home bg-image" style="background-image: url(../assets/img/banner-pattern.svg);">
+  <!-- <div class="page-section banner-home bg-image" style="background-image: url(../assets/img/banner-pattern.svg);">
     <div class="container py-5 py-lg-0">
       <div class="row align-items-center">
         <div class="col-lg-4 wow zoomIn">
@@ -248,7 +217,7 @@
         </div>
       </div>
     </div>
-  </div> <!-- .banner-home -->
+  </div> .banner-home -->
 
   <footer class="page-footer">
     <div class="container">

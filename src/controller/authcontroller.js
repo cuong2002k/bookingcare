@@ -3,6 +3,7 @@ import multer from 'multer'
 let getLoginpage = (req,res) =>{
     return res.render('auth/login.ejs');
 }
+
 let checkLoginpage = async (req,res) =>{
     let {Username,Password,remember} = req.body;
     let [rows,fields] = await pool.execute('select * from users where Email = ? and Password = ?',[Username,Password]);
@@ -36,19 +37,52 @@ let getDetailpage = async (req,res) =>{
 
 let getAdminpage = async (req, res) => {
     let id = req.params.id;
-    const [user,fielduser] = await pool.execute('select * from users where id = ? ', [id]);
+    const [user,fielduser] = await pool.execute('select * from users where id = ?', [id]);
+    const [doctor] = await pool.execute(`select * from booking  
+                                        inner join users on booking.iddoctor = users.id
+                                        inner join specialized on users.specialized =  specialized.idsp 
+                                        inner join clinics on users.clinics = clinics.idclinics `);
+                                        
+    const [booking] = await pool.execute(`select * from booking  inner join users on booking.idpatient = users.id`);
+    const [booking1] = await pool.execute(`select * from booking  inner join users on booking.idpatient = users.id where iddoctor = ? `,[id]);
+    
     if(user[0].Position == 1){
         const [rows, fields] = await pool.execute('SELECT * FROM users inner join roles on users.Position = roles.rolesid');
         return res.render('admin/user.ejs', { datauser: rows , userid : user[0]});
     }
     else if(user[0].Position == 2) {
-        return res.send('doctor');
+        const [doctor1] = await pool.execute(`select * from booking  
+                                        inner join users on booking.iddoctor = users.id
+                                        inner join specialized on users.specialized =  specialized.idsp 
+                                        inner join clinics on users.clinics = clinics.idclinics 
+                                        `);
+        const [diagnostic] = await pool.execute('select * from diagnostic where diagnostic.iddoctor = ?',[id]);
+        return res.render('doctor/manage.ejs',{userid : user[0] , booking : booking1 , doctor : doctor1, diagnostic : diagnostic});
+    }
+    else if(user[0].Position == 3){
+        
+        return res.render('supporter/manage.ejs',{userid : user[0] , booking : booking , doctor : doctor});
     }
     else{
-        return res.send('patient');
+        const [doctor123] = await pool.execute(`
+        select * from booking 
+        inner join users on booking.iddoctor = users.id 
+        inner join specialized on users.specialized =  specialized.idsp 
+        inner join clinics on users.clinics = clinics.idclinics 
+        where booking.idpatient = ?
+        `,[id]);  
+         
+                                    
+        const [patientt] = await pool.execute(`select * from booking  
+                            inner join users on booking.idpatient = users.id 
+                            where idpatient = ? ` ,[id]); 
+        const [fieldname] = await pool.execute('select * from diagnostic where diagnostic.idpatient = ?',[id]); 
+        
+        return res.render('patient/managepatient.ejs',{userid : user[0] , booking : patientt , doctor : doctor123, diag : fieldname});
     }
 
 }
+
 let getnewuser = async (req,res) =>{
     let id = req.params.id; 
     const [rows,fieldname] = await pool.execute('select * from users where id = ? ',[id]);
@@ -117,6 +151,61 @@ let deleteuser = async (req,res) =>{
     
     // return res.redirect('/');  
 }
+let acpuser = async (req,res) =>{
+    let idpatient = req.params.id;
+    let idbooking = req.params.idbooking;
+    await pool.execute('update booking set status = 2 where idbooking = ?',[idbooking]);
+    return res.redirect(`/admin/user/${idpatient}`);
+}
+let caluser = async (req,res) =>{
+    let idpatient = req.params.id;
+    let idbooking = req.params.idbooking;
+    await pool.execute('update booking set status = 3 where idbooking = ?',[idbooking]);
+    return res.redirect(`/admin/user/${idpatient}`);
+}
+let diagnostic = async (req,res) =>{
+    let iddoctor = req.params.iddoctor;
+    let idpatient = req.params.idpatient;
+    let {diagnostic,
+        stage,
+        note,
+        bookingid} = req.body;
+    console.log(req.body);
+    await pool.execute(`update booking set status = 4 where idbooking = ?`, [bookingid]);
+    await pool.execute(`insert into diagnostic(id,iddoctor,idpatient,diagnostic,stage,note) values(?,?,?,?,?,?)`,[
+        bookingid,
+        iddoctor,
+        idpatient,
+        diagnostic,
+        stage,
+        note]);
+    return res.redirect(`/admin/user/${iddoctor}`);
+    
+}
+let getregister = async (req, res) =>{
+    const [specialized] = await pool.execute('select * from specialized');
+    const [clinic] = await pool.execute('select * from clinics');
+    return res.render('auth/register.ejs',{specialized : specialized, clinic : clinic});
+}
+let getsuportpage = async (req,res) =>{
+    let id = req.params.id;
+    const [userid] = await pool.execute('select * from users where id = ?',[id]);
+    const [support] = await pool.execute('select * from support');
+    return res.render('supporter/support.ejs',{userid : userid[0] , support : support})
+}
+let acpsupport = async (req,res) =>{
+    let iduser = req.params.idadmin;
+    let idsupport = req.params.idsupport;
+    let status = req.params.status;
+    await pool.execute('update support set status = ? where idsupport = ?',[status,idsupport]);
+    // const [userid] = await pool.execute('select * from users where id = ?',[iduser]);
+    return res.redirect(`/admin/get-support/${iduser}`);
+}
+let report = async (req,res) =>{
+    let id = req.params.id;
+    const [userid] = await pool.execute('select * from users where id = ?',[id]);
+    return res.render('doctor/report.ejs',{userid : userid[0]})
+}
 module.exports = {
     getLoginpage,
     checkLoginpage,
@@ -126,5 +215,13 @@ module.exports = {
     getDetailpage,
     updateusers,
     getupdateusers,
-    deleteuser
+    deleteuser,
+    acpuser,
+    caluser,
+    diagnostic,
+    getregister,
+    getsuportpage,
+    acpsupport,
+    report
+   
 }

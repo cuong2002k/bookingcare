@@ -24,7 +24,7 @@ const imageFilter = function(req, file, cb) {
     }
     cb(null, true);
 };
-let upload = multer({ storage: storage, fileFilter: imageFilter });
+const upload = multer({ storage: storage, fileFilter: imageFilter });
 
 const initwebRoute = (app) =>{
     // auth
@@ -57,9 +57,27 @@ const initwebRoute = (app) =>{
     // comment 
     router.post('/comment/:postid/:userid',homecontroller.comment);
     // booking
-    router.post('/booking',homecontroller.getbooking);
+    router.post('/booking/:id',homecontroller.getbooking);
     // deatails clinic
     router.get('/details-clinics/:idclinic/:iduser',homecontroller.getdetailclinics)
+    // get acp
+    router.post('/acp-booking/:id/:idbooking',authcontroller.acpuser);
+    router.get('/cal-booking/:id/:idbooking',authcontroller.caluser);
+    // diagnostic
+    router.post('/diagnostic/:idpatient/:iddoctor',authcontroller.diagnostic);
+    //get register
+    router.get('/register',authcontroller.getregister);
+    // post register
+    router.post('/registeruser',upload.single('profile'),homecontroller.register);
+    // post support
+    router.post('/sendsupport/:id',homecontroller.support);
+
+    // get acp
+   router.get('/admin/get-support/:id',authcontroller.getsuportpage);
+    // get acp sb
+    router.post('/acp-support/:idadmin/:idsupport/:status',authcontroller.acpsupport)
+    // get report
+    router.get('/admin/report/:id',authcontroller.report)
     return app.use('/',router);
 }
 // module.exports = initwebRoute;

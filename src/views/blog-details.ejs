@@ -51,16 +51,16 @@
 
     <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
       <div class="container">
-        <a class="navbar-brand" href="#"><span class="text-primary">One</span>-Health</a>
+        <a class="navbar-brand" href="/home/<%=datauser.id%>"><span class="text-primary">Booking</span>-Care</a>
 
-        <form action="#">
+        <!-- <form action="#">
           <div class="input-group input-navbar">
             <div class="input-group-prepend">
               <span class="input-group-text" id="icon-addon1"><span class="mai-search"></span></span>
             </div>
             <input type="text" class="form-control" placeholder="Enter keyword.." aria-label="Username" aria-describedby="icon-addon1">
           </div>
-        </form>
+        </form> -->
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport" aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -90,7 +90,7 @@
               border-radius: 50%;
               height: 5em;
               width: 5em;
-              background: url(/img/auth/<%=datauser.img%>);
+              background: url(/img/<%=datauser.img%>);
               background-position: center;
               background-size: cover;
               "
@@ -148,7 +148,7 @@
               </div>
               <span class="divider">|</span>
               <div class="post-date">
-                <a href="#"><%=post.date%></a>
+                <a href="#"><%=post.date.getDate()%> / <%=post.date.getMonth()%> / <%=post.date.getFullYear()%></a>
               </div>
               <span class="divider">|</span>
               <div>
@@ -188,7 +188,7 @@
         </div>
         <div class="col-lg-4">
           <div class="sidebar">
-            <div class="sidebar-block">
+            <!-- <div class="sidebar-block">
               <h3 class="sidebar-title">Search</h3>
               <form action="#" class="search-form">
                 <div class="form-group">
@@ -196,8 +196,8 @@
                   <button type="submit" class="btn"><span class="icon mai-search"></span></button>
                 </div>
               </form>
-            </div>
-            <div class="sidebar-block">
+            </div> -->
+            <!-- <div class="sidebar-block">
               <h3 class="sidebar-title">Categories</h3>
               <ul class="categories">
                 <li><a href="#">Food <span>12</span></a></li>
@@ -206,52 +206,29 @@
                 <li><a href="#">Drinks <span>42</span></a></li>
                 <li><a href="#">Ocassion <span>14</span></a></li>
               </ul>
-            </div>
+            </div> -->
 
             <div class="sidebar-block">
               <h3 class="sidebar-title">Recent Blog</h3>
-              <div class="blog-item">
-                <a class="post-thumb" href="">
-                  <img src="/img/blog/blog_1.jpg" alt="">
-                </a>
-                <div class="content">
-                  <h5 class="post-title"><a href="#">Even the all-powerful Pointing has no control</a></h5>
-                  <div class="meta">
-                    <a href="#"><span class="mai-calendar"></span> July 12, 2018</a>
-                    <a href="#"><span class="mai-person"></span> Admin</a>
-                    <a href="#"><span class="mai-chatbubbles"></span> 19</a>
+              <%for(let i = 0;i< news.length && i < 3;i++){%>
+                <div class="blog-item">
+                  <a class="post-thumb" href="">
+                    <img src="/img/<%=news[i].image%>">
+                  </a>
+                  <div class="content">
+                    <h5 class="post-title"><a href="#"><%=news[i].name%></a></h5>
+                    <div class="meta">
+                      <a href="#"><span class="mai-calendar"></span> <%=news[i].date.getDate()%> / <%=news[i].date.getMonth()%> / <%=news[i].date.getFullYear()%></a>
+                      <a href="#"><span class="mai-person"></span> Admin </a>
+                      <a href="#"><span class="mai-chatbubbles"></span> 19</a>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="blog-item">
-                <a class="post-thumb" href="">
-                  <img src="/img/blog/blog_2.jpg" alt="">
-                </a>
-                <div class="content">
-                  <h5 class="post-title"><a href="#">Even the all-powerful Pointing has no control</a></h5>
-                  <div class="meta">
-                    <a href="#"><span class="mai-calendar"></span> July 12, 2018</a>
-                    <a href="#"><span class="mai-person"></span> Admin</a>
-                    <a href="#"><span class="mai-chatbubbles"></span> 19</a>
-                  </div>
-                </div>
-              </div>
-              <div class="blog-item">
-                <a class="post-thumb" href="">
-                  <img src="/img/blog/blog_3.jpg" alt="">
-                </a>
-                <div class="content">
-                  <h5 class="post-title"><a href="#">Even the all-powerful Pointing has no control</a></h5>
-                  <div class="meta">
-                    <a href="#"><span class="mai-calendar"></span> July 12, 2018</a>
-                    <a href="#"><span class="mai-person"></span> Admin</a>
-                    <a href="#"><span class="mai-chatbubbles"></span> 19</a>
-                  </div>
-                </div>
-              </div>
+              <%}%>
+              
             </div>
 
-            <div class="sidebar-block">
+            <!-- <div class="sidebar-block">
               <h3 class="sidebar-title">Tag Cloud</h3>
               <div class="tagcloud">
                 <a href="#" class="tag-cloud-link">dish</a>
@@ -263,7 +240,7 @@
                 <a href="#" class="tag-cloud-link">desserts</a>
                 <a href="#" class="tag-cloud-link">drinks</a>
               </div>
-            </div>
+            </div> -->
 
             <div class="sidebar-block">
               <h3 class="sidebar-title">Paragraph</h3>
@@ -370,7 +347,7 @@
 
 </style>
   <!--  -->
-  <div class="page-section banner-home bg-image" style="background-image: url(../assets/img/banner-pattern.svg);">
+  <!-- <div class="page-section banner-home bg-image" style="background-image: url(../assets/img/banner-pattern.svg);">
     <div class="container py-5 py-lg-0">
       <div class="row align-items-center">
         <div class="col-lg-4 wow zoomIn">
@@ -383,9 +360,9 @@
           <a href="#"><img src="/img/google_play.svg" alt=""></a>
           <a href="#" class="ml-2"><img src="/img/app_store.svg" alt=""></a>
         </div>
-      </div> <!-- .row -->
-    </div> <!-- .container -->
-  </div> <!-- .banner-home -->
+      </div> 
+    </div> 
+  </div>  -->
 <!--  -->
     
 

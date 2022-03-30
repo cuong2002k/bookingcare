@@ -64,16 +64,16 @@
 
     <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
       <div class="container">
-        <a class="navbar-brand" href="#"><span class="text-primary">One</span>-Health</a>
+        <a class="navbar-brand" href="/home/<%=user.id%>"><span class="text-primary">Booking</span>-Care</a>
 
-        <form action="#">
+        <!-- <form action="#">
           <div class="input-group input-navbar">
             <div class="input-group-prepend">
               <span class="input-group-text" id="icon-addon1"><span class="mai-search"></span></span>
             </div>
             <input type="text" class="form-control" placeholder="Enter keyword.." aria-label="Username" aria-describedby="icon-addon1">
           </div>
-        </form>
+        </form> -->
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport" aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -194,7 +194,7 @@
                                   <span aria-hidden="true">&times;</span>
                                 </button>
                               </div>
-                              <form action="/booking" method="post">
+                              <form action="/booking/<%=user.id%>" method="post">
                                   <div class="modal-body ">
                                     <input type="text" name="doctor" value="<%=doctor.id%>" style="display: none;">
                                     <input type="text" name="patient" value="<%=user.id%>" style="display: none;">
@@ -241,7 +241,7 @@
                                   <span aria-hidden="true">&times;</span>
                                 </button>
                               </div>
-                              <form action="/booking" method="post">
+                              <form action="/booking/<%=user.id%>" method="post">
                                   <div class="modal-body ">
                                     <input type="text" name="doctor" value="<%=doctor.id%>" style="display: none;">
                                     <input type="text" name="patient" value="<%=user.id%>" style="display: none;">
@@ -289,43 +289,36 @@
 
   <div class="page-section">
     <div class="container">
-      <h1 class="text-center wow fadeInUp">Make an Appointment</h1>
-
-      <form class="main-form">
+      <h1 class="text-center wow fadeInUp">Require To Be Supported</h1>
+      <form class="main-form" action="/sendsupport/<%=user.id%>" method="post">
         <div class="row mt-5 ">
           <div class="col-12 col-sm-6 py-2 wow fadeInLeft">
-            <input type="text" class="form-control" placeholder="Full name">
+            <input type="text" class="form-control" placeholder="Full name" name="name" required>
           </div>
           <div class="col-12 col-sm-6 py-2 wow fadeInRight">
-            <input type="text" class="form-control" placeholder="Email address..">
+            <input type="text" class="form-control" placeholder="Email address.." name="email" required>
           </div>
           <div class="col-12 col-sm-6 py-2 wow fadeInLeft" data-wow-delay="300ms">
-            <input type="date" class="form-control">
+            <input type="date" class="form-control" name="date" required>
           </div>
           <div class="col-12 col-sm-6 py-2 wow fadeInRight" data-wow-delay="300ms">
-            <select name="departement" id="departement" class="custom-select">
-              <option value="general">General Health</option>
-              <option value="cardiology">Cardiology</option>
-              <option value="dental">Dental</option>
-              <option value="neurology">Neurology</option>
-              <option value="orthopaedics">Orthopaedics</option>
-            </select>
+            <input type="text" class="form-control" name="number" placeholder="Number.." required>
           </div>
           <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
-            <input type="text" class="form-control" placeholder="Number..">
+            <input type="text" class="form-control" placeholder="Address.." name="address" required>
           </div>
           <div class="col-12 py-2 wow fadeInUp" data-wow-delay="300ms">
-            <textarea name="message" id="message" class="form-control" rows="6" placeholder="Enter message.."></textarea>
+            <textarea name="message" id="message" class="form-control" rows="6" placeholder="Enter message.." required></textarea>
           </div>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3 wow zoomIn">Submit Request</button>
       </form>
     </div>
-  </div> 
+  </div>
   <!-- .page-section -->
 
-  <div class="page-section banner-home bg-image" style="background-image: url(/img/banner-pattern.svg);">
+  <!-- <div class="page-section banner-home bg-image" style="background-image: url(/img/banner-pattern.svg);">
     <div class="container py-5 py-lg-0">
       <div class="row align-items-center">
         <div class="col-lg-4 wow zoomIn">
@@ -340,7 +333,7 @@
         </div>
       </div>
     </div>
-  </div> 
+  </div>  -->
   
   <!-- .banner-home -->
 

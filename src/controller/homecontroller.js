@@ -84,14 +84,15 @@ let gethome = async (req,res)=>{
 // get about
 let getabout = async (req,res)=>{
     let id = req.params.id;
-    const [rows, fields] = await pool.execute('select * from users where id = ?',[id])
-    return res.render('about.ejs',{datauser: rows[0]})
+    const [rows, fields] = await pool.execute('select * from users where id = ?',[id]);
+    const [doctor] = await pool.execute('select * from users inner join specialized on users.specialized =  specialized.idsp where Position = 2');
+    return res.render('about.ejs',{datauser: rows[0] , doctor : doctor})
 }
 // get getdoctordetails
 let getdoctorpage = async (req,res) =>{
     let id = req.params.id;
     const [rows, fields] = await pool.execute('select * from users where id = ?',[id]);
-    const [doctor, fieldsdoctor] = await pool.execute('select * from users where Position = 2');
+    const [doctor, fieldsdoctor] = await pool.execute('select * from users inner join specialized on users.specialized =  specialized.idsp where Position = 2');
     return res.render('doctors.ejs',{datauser: rows[0],doctor : doctor});
 }
 // get getnews
@@ -99,7 +100,8 @@ let getnews = async (req,res)=>{
     let id = req.params.id;
     const [rows, fields] = await pool.execute('select * from users where id = ?',[id]);
     const [post,postfields] = await pool.execute('SELECT *   FROM `posts` INNER JOIN `users` WHERE id = idadmin');
-    return res.render('blog.ejs',{datauser: rows[0],post : post});
+    const [news] = await pool.execute('select * from posts');
+    return res.render('blog.ejs',{datauser: rows[0],post : post , news : news});
 }
 let blogdetails = async (req,res)=>{
     let postid = req.params.id;
@@ -107,7 +109,8 @@ let blogdetails = async (req,res)=>{
     const [rows, fields] = await pool.execute('select * from posts where idpost = ?',[postid]);
     const [user, fieldsuser] = await pool.execute('select * from users where id = ?',[id]);
     const [comment,fieldscomment] = await pool.execute('select * from comment inner join users on idpatient = id where idnews = ? ',[postid]);
-    return res.render('blog-details.ejs',{post: rows[0],datauser: user[0],comment : comment});
+    const [news] = await pool.execute('select * from posts');
+    return res.render('blog-details.ejs',{post: rows[0],datauser: user[0],comment : comment , news : news});
 }
 let contact = async (req,res) =>{
     let id = req.params.id;
@@ -140,9 +143,10 @@ let getbooking = async (req,res) =>{
     Time,
     Date,
     reason} = req.body;
+    let id = req.params.id;
+    const [user] = await pool.execute('select * from users where id = ?',[id]);
     await pool.execute('insert into booking(iddoctor,reason,idpatient,time,date) values(?,?,?,?,?)',[doctor,reason,patient,Time,Date]);
-
-    return res.send('thanh cong');
+    return res.render('acp.ejs',{user : user[0]});
 }
 let getdetailclinics = async (req,res) =>{
     let userid = req.params.iduser;
@@ -151,6 +155,52 @@ let getdetailclinics = async (req,res) =>{
     const [clinic] = await pool.execute('select * from clinics where idclinics = ?',[idclinic]);
     const [doctor] = await pool.execute('select * from users inner join specialized on users.specialized =  specialized.idsp where clinics = ? ' , [idclinic]);
     return res.render('detailsclinic.ejs',{user : user[0],clinic : clinic[0],doctor : doctor});
+}
+let register = async (req,res) =>{
+    var {FullName ,
+        MobileNumber ,
+        Password,
+        Sex,
+        birthday,
+        Address,
+        Email,
+        Position,
+        clinics,
+        specialized,
+
+    } = req.body;
+    upload(req, res, async function(err) {
+        // req.file contains information of uploaded file
+        // req.body contains information of text fields, if there were any
+
+        if (req.fileValidationError) {
+            return res.send(req.fileValidationError);
+        }
+        else if (!req.file) {
+            return res.send('Please select an image to upload');
+        }
+        else if (err instanceof multer.MulterError) {
+            return res.send(err);
+        }
+        else if (err) {
+            return res.send(err);
+        }
+        // res.send(`You have uploaded this image: <hr/><img src="/img/${req.file.filename}" width="500"><hr /><a href="/upload">Upload another image</a>`);
+        await pool.execute(`insert into users(FullName,MobileNumber,Password,Sex,BirthDay,Address,Email,Position,specialized,clinics,img) values(?,?,?,?,?,?,?,?,?,?,?)`,
+            [FullName,MobileNumber,Password,Sex,birthday,Address,Email,Position,specialized,clinics,req.file.filename]);
+        
+        return res.redirect('/');
+    }); 
+    // return res.send('successful');
+}
+let support = async (req, res) =>{
+    const {name,email,date,number,address,message} = req.body;
+    let id = req.params.id;
+    const [user] = await pool.execute('select * from users where id = ?',[id]);
+    await pool.execute(`insert into support(name,email,date,phone,address,message) 
+                        values(?,?,?,?,?,?)`,[name,email,date,number,address,message]);
+    return res.render('acp.ejs',{user : user[0]});
+
 }
 module.exports = {
     createNewUser,
@@ -164,5 +214,9 @@ module.exports = {
     comment,
     detailsdoctor,
     getbooking,
-    getdetailclinics
+    getdetailclinics,
+    register,
+    support,
+    
+    
 }
